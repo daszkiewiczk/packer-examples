@@ -17,5 +17,17 @@ build {
   sources = [
     "source.docker.ubuntu"
   ]
+  provisioner "shell" {
+  environment_vars = [
+    "FOO=bar",
+    "BAZ=qux",
+  ]
+  inline = [
+    "echo 'I hate computers!!!1' > flag.txt",
+  ]
+  }
+  provisioner "shell" {
+    inline = ["echo this provisioner runs lasts"]
+  }
 }
 
