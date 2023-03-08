@@ -7,7 +7,8 @@ packer {
   }
 }
 # variables precedence: defaults < env vars < var files < cli flags
-# run packer on directoruy instead of on template to use var files ('packer build .' instead of packer build 'template.pkr.hcl')
+# run packer on directoruy instead of on template to use var files
+# ('packer build .' instead of packer build 'template.pkr.hcl')
 variable "docker_image" {
   type = string
   default = "ubuntu:xenial"
@@ -18,10 +19,16 @@ source "docker" "ubuntu" {
   commit = true
 }
 
+source "docker" "ubuntu_2" {
+  image  = "ubuntu:bionic"
+  commit = true
+}
+
 build {
   name = "learn-packer"
   sources = [
-    "source.docker.ubuntu"
+    "source.docker.ubuntu",
+    "source.docker.ubuntu_2",
   ]
   provisioner "shell" {
   environment_vars = [
