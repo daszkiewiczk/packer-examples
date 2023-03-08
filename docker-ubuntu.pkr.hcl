@@ -6,9 +6,15 @@ packer {
     }
   }
 }
+# variables precedence: defaults < env vars < var files < cli flags
+# run packer on directoruy instead of on template to use var files ('packer build .' instead of packer build 'template.pkr.hcl')
+variable "docker_image" {
+  type = string
+  default = "ubuntu:xenial"
+}
 
 source "docker" "ubuntu" {
-  image  = "ubuntu:xenial"
+  image  = var.docker_image
   commit = true
 }
 
@@ -27,7 +33,7 @@ build {
   ]
   }
   provisioner "shell" {
-    inline = ["echo this provisioner runs lasts"]
+    inline = ["echo Running ${var.docker_image} image"]
   }
 }
 
