@@ -42,5 +42,22 @@ build {
   provisioner "shell" {
     inline = ["echo Running ${var.docker_image} image"]
   }
+
+  post-processor "docker-tag" {
+    repository = "myrepo"
+    tags        = [
+      replace("${var.docker_image}", ":", "-"),
+      "computer_rivalry",
+    ]
+    only       = ["docker.ubuntu"]
+  }
+  post-processor "docker-tag" {
+    repository = "myrepo"
+    tags        = ["ubuntu-bionic"]
+    only       = ["docker.ubuntu_2"]
+  }
+
+  
+
 }
 
